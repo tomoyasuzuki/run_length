@@ -3,7 +3,21 @@
 #include <stdio.h>
 #include <string.h>
 
-void compress(char *input, char *output) {
+#define MAX_SIZE 1024
+
+void decode(char *input, char *output) {
+    int out_i = 0;
+
+    for (int i = 0; input[i]; i += 2) {
+        char num = input[i+1] - '0';
+        for (int j = 0; j < num; j++) {
+            output[out_i] += input[i];
+            out_i++;
+        }
+    }
+}
+
+void encode(char *input, char *output) {
     int length = strlen(input);
 
     int count = 0;
@@ -24,21 +38,26 @@ void compress(char *input, char *output) {
 }
 
 void usage() {
-    printf("Usage: ./rle <input-text>\n");
+    printf("Usage: ./rle <option> <input-text>\nOption: \n\t-e = encode mode\n\t-d = decode mode \n");
     exit(0);
 }
 
 int main(int argc, char *argv[]) {
-
-    if (argc <= 1 || strlen(argv[1]) <= 0)
+    if (argc <= 1 || strlen(argv[1]) < 2)
         usage();
-    
-    char *input = argv[1];
-    char *output = malloc(strlen(input));
 
-    compress(input, output);
-    
+    char *input = argv[2];
+    char *output = malloc(MAX_SIZE);
+
+    if (!strcmp(argv[1],"-c")) {
+        encode(input, output);
+    } else if (!strcmp(argv[1],"-d")) {
+        decode(input, output);
+    } else {
+        printf("Failed: option is invalid.\n");
+        exit(0);
+    }
+
     printf("output: %s\n", output);
-    free(output);
     return 0;
 }
