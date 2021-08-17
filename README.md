@@ -8,6 +8,6 @@ $ make
 $ ./rle -c kkkwww
 # output: k3w3
 
-$ ./rle -c s4e2
+$ ./rle -d s4e2
 # output: ssssee
 ```
