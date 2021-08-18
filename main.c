@@ -5,6 +5,38 @@
 
 #define MAX_SIZE 1024
 
+void diff_encode(char *input, char *output) {
+    for (int i = 0; i < strlen(input); i++) {
+        if (i == 0) {
+            output[0] = input[0];
+        } else if (input[0] == input[i]) {
+            output[i] = input[i];
+        }else {
+            char diff = input[0]-input[i]; 
+            output[i] = diff;
+        }
+    }
+
+    output[strlen(input)] = '\0';
+}
+
+void diff_decode(char *input, char *output) {
+    for (int i = 0; i < strlen(input); i++) {
+        if (i == 0) {
+            output[0] = input[0];
+        } else if (input[0] == input[i]) {
+            output[i] = input[i];
+        } else {
+            output[i] = input[0]-input[i];
+            printf("%d ", output[i]);
+        }
+    }
+
+    output[strlen(input)] = '\0';
+}
+
+
+
 void decode(char *input, char *output) {
     int out_i = 0;
 
@@ -43,6 +75,11 @@ void usage() {
 }
 
 int main(int argc, char *argv[]) {
+
+    char *test = "test";
+    char out[MAX_SIZE];
+    char out2[MAX_SIZE];
+
     if (argc <= 1 || strlen(argv[1]) < 2)
         usage();
 
@@ -53,6 +90,10 @@ int main(int argc, char *argv[]) {
         encode(input, output);
     } else if (!strcmp(argv[1],"-d")) {
         decode(input, output);
+    } else if (!strcmp(argv[1],"-cdl")) {
+        
+    } else if (!strcmp(argv[1],"-ddl")) {
+
     } else {
         printf("Failed: option is invalid.\n");
         exit(0);
